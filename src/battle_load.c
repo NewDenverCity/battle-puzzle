@@ -1,17 +1,8 @@
 #include <pokeagb/pokeagb.h>
 #include "battle_load.h"
+#include "trainers.h"
 
 #define FLAG 0x230
-
-const struct CustomTrainerPokemon EnemyTeam[6] =
-{
-	{SPECIES_BULBASAUR, 8, 0, {0, 0, 0, 0}, ITEM_NONE, NATURE_HARDY, 0, 0, 0, 0, 0, 0}, /* i changed the struct */
-	{SPECIES_IVYSAUR, 16, 1, {0, 0, 0, 0}, ITEM_NONE, NATURE_LONELY, 0, 0, 0, 0, 0, 0},
-	{SPECIES_VENUSAUR, 32, 2, {0, 0, 0, 0}, ITEM_NONE, NATURE_BRAVE, 0, 0, 0, 0, 0, 0},
-	{SPECIES_CHARMANDER, 8, 3, {0, 0, 0, 0}, ITEM_NONE, NATURE_ADAMANT, 0, 0, 0, 0, 0, 0},
-	{SPECIES_CHARMELEON, 16, 4, {0, 0, 0, 0}, ITEM_NONE, NATURE_NAUGHTY, 0, 0, 0, 0, 0, 0},
-	{SPECIES_CHARIZARD, 32, 5, {0, 0, 0, 0}, ITEM_NONE, NATURE_BOLD, 0, 0, 0, 0, 0, 0}
-};
 
 void battle_load_hack(u16 trainerid) {
 	u32 generated_pid;
@@ -27,6 +18,11 @@ void battle_load_hack(u16 trainerid) {
 				pokemon_setattr(&party_opponent[i], (REQUEST_MOVE1 + j), &move_thing);
 			}
 			pokemon_restore_pp(&party_opponent[i]);
+			for (u8 j = 0; j < 6; j++) {
+				u8 ev_set = EnemyTeam[i].ev[j];
+				pokemon_setattr(&party_opponent[i], (REQUEST_HP_EV + j), &ev_set);
+			}
+			recalculate_stats(&party_opponent[i]);
 		}
 	}
 }

@@ -10,12 +10,12 @@ struct CustomTrainerPokemon {
 	u16 move[4];
 	enum Item held_item;
 	enum PokemonNature nature;
-	u8 hpev;
-	u8 atkev;
-	u8 defev;
-	u8 speev;
-	u8 spatkev;
-	u8 spdefev;
+	u8 ev[6];
+};
+
+struct PointerTableStruct {
+	struct CustomTrainerPokemon *pkmn;
+	u8 pokenumber;
 };
 
 #endif /* LOAD_POKEMON_H */
